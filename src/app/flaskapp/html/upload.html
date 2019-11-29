@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post" novalidate action="upload" enctype="multipart/form-data">
+    <center>
+    <input type="file" name="photos" accept="image/*" multiple="multiple">
+    <input type="button" value="Upload"><input type="submit" value="Temp Upload">
+    </center>
+</form>
+{% endblock %}

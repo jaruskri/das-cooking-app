@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<center><h1>Welcome to Cooking App!</h1></center>
+<form method="post" novalidate>{{ form.hidden_tag() }}
+    <center>
+    {{ form.password.label }}
+    {{ form.password(size=32) }}
+    {{ form.submit() }}
+    </center>
+</form>
+{% endblock %}
