@@ -1,10 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method="post" novalidate action="upload" enctype="multipart/form-data">
-    <center>
-    <input type="file" name="photos" accept="image/*" multiple="multiple">
-    <input type="button" value="Upload"><input type="submit" value="Temp Upload">
-    </center>
+
+<!-- Upload form-->
+<div class="w3-center">
+<div class="w3-bar" id="uploadingform"><!--
+    --><input type="file" name="photos" accept="image/*" multiple="multiple" id="fileinput"><!--
+    --><input type="button" id="uploadbtn" value="Upload photos" class="w3-bar-item w3-btn w3-black"><!--
+    --><input type="text" list="ingredientslist" id="addinput" class="w3-bar-item w3-input" placeholder="Enter ingredient"><!--
+    --><datalist id="ingredientslist"></datalist><!--
+    --><input type="button" id="addbtn" value="Add" class="w3-bar-item w3-btn w3-black"><!--
+    --><input type="button" id="clearbtn" value="Clear" class="w3-bar-item w3-btn w3-black"><!--
+    --><input type="button" id="continuebtn" value="Continue" class="w3-bar-item w3-btn w3-black">
+</div></div>
+
+<!-- Loaded photos Grid-->
+<div class="w3-center w3-row" id="ingredients">
+    
+</div>
+
+<form action="recipe" method="post" class="w3-hide" id="continueform">
+    <input type="text" name="ingredients">
 </form>
+
 {% endblock %}

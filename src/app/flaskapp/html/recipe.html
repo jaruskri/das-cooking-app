@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+Ingredients:
+
+<ul>
+{% for i in ingredients %}
+    <li>{{ i }}</li>
+{% endfor %}
+</ul>
+
+Recipes:
+
+<ul>
+{% for r in recipes %}
+    <li>{{ r.title }}</li>
+{% endfor %}
+</ul>
+
+
+{% set r = recipes[0] %}
+<h1>{{ r.title }}</h1>
+
+<h2>Ingredients</h2>
+<ul>
+{% for i in r.ingredients %}
+    <li>{{ i }}</li>
+{% endfor %}
+</ul>
+
+<h2>Directions</h2>
+<ol>
+{% for i in r.directions %}
+    <li>{{ i }}</li>
+{% endfor %}
+</ol>
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for d in data %}
+{% for f in d %}
+<div class="w3-row logitem w3-border w3-margin-bottom">
+    <div class="w3-twothird">
+        <table class="w3-table w3-bordered">
+            {% if f.estimation %}
+            <tr>
+                <td>Estimations:</td>
+                {% for e in f.estimation %}
+                <td>{{ e }}</td>
+                {% endfor %}
+            </tr>
+            {% endif %}
+            {% if f.estimationWeights %}
+            <tr>
+                <td>Weights:</td>
+                {% for e in f.estimationWeights %}
+                <td>{{ "%.4f"|format(e) }}</td>
+                {% endfor %}
+            </tr>
+            {% endif %}
+            {% if f.estimationMethod %}
+            <tr>
+                <td>Estimation method:</td>
+                <td>{{ f.estimationMethod }}</td>
+            </tr>
+            {% endif %}
+            {% if f.selection %}
+            <tr>
+                <td>Selection:</td>
+                <td>{{ f.selection }}</td>
+            </tr>
+            {% endif %}
+            {% if f.selectionMethod %}
+            <tr>
+                <td>Selection method:</td>
+                <td>{{ f.selectionMethod }}</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+    {% if f.filename %}<img src="{{ uf }}/{{ f.filename }}" class="w3-third">{% endif %}
+</div>
+{% endfor %}
+<hr>
+{% endfor %}
+
+{% endblock %}
