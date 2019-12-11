@@ -25,7 +25,7 @@ $(document).ready(function(){
                     $('#fileinput').val('');
                     r = JSON.parse(response);
                     console.log(r);
-                    $.extend(photos, photos, r);
+                    photos = photos.concat(r);
                     displayingredients();
                 }
             },
@@ -81,6 +81,7 @@ $(document).ready(function(){
     // display loaded ingredients
     function displayingredients() {
         console.log('Displaying ingredients');
+        console.log(photos);
         $("#ingredients").html('');
         for (i = 0; i < photos.length; i++) {
             var element = '<div class="w3-quarter"><div class="w3-card-2 ingredientbox" id="ing'+i+'" pid="'+i+'">';
@@ -95,14 +96,19 @@ $(document).ready(function(){
                 t = est[e];
                 if (e == 0) t = firstCapital(t);
                 else element += ', ';
-                element += '<a href="javascript:void(0);" pid='+i+'>'+t+'</a>';
+                element += '<a href="javascript:void(0);" pid="'+i+'" class="changeingredience">'+t+'</a>';
             }
-            if (est.length > 0) element += '?';
-            element += '</p></div></div>';
+            if (est.length > 0) element += '? ';
+            element += '<a href="javascript:void(0);" pid="'+i+'" class="removeingredience">Remove?</a></p></div></div>';
             $("#ingredients").append(element);
         }
-        $(".ingredientbox a").unbind('click').click(function(){
+        $(".ingredientbox a.changeingredience").unbind('click').click(function(){
             manualSelection(parseInt($(this).attr('pid')), $(this).text().toLowerCase());
+        });
+        $(".ingredientbox a.removeingredience").unbind('click').click(function(){
+            console.log("Remove " + $(this).attr('pid'));
+            photos.splice(parseInt($(this).attr('pid')), 1);
+            displayingredients();
         });
     }
 
@@ -111,6 +117,8 @@ $(document).ready(function(){
         console.log('Loading photos from session.');
         photos = JSON.parse(sessionStorage.getItem('photos'));
         displayingredients();
+    } else {
+        photos = [];
     }
 
     // add manually
