@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
 
 import keras
 from keras.layers.core import Dense, Flatten
@@ -17,7 +12,6 @@ import os
 import pandas as pd
 
 
-# In[ ]:
 
 
 def klasifikace(path):
@@ -51,13 +45,7 @@ def klasifikace(path):
     return output
 
 
-# In[ ]:
 
-
-print(klasifikace('data_images/almond/4293.jpg'))
-
-
-# In[ ]:
 
 
 
