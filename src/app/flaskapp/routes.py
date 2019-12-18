@@ -41,7 +41,6 @@ def upload():
     uploaded = session.get('uploaded') or []
     uploaded.extend(names)
     session['uploaded'] = uploaded
-    print(names)
     return json.dumps(names)
 
 @app.route('/ingredientslist')
@@ -60,8 +59,6 @@ def uploaded_static(filename):
 def recipes():
     if not session.get('logged'):
         return redirect(url_for('index'))
-    if session.get('ingredients'):
-        print(session.get('ingredients'))
     if request.form.get('ingredients') is not None:
         ingredients = json.loads(request.form.get('ingredients'))
         with open(os.path.join(app.config['UPLOAD_FOLDER'], str(round(time.time()*1000)) + '.json'), 'w') as outfile:
@@ -69,7 +66,6 @@ def recipes():
         selectedIngredients = []
         for i in ingredients:
             selectedIngredients.append(i['selection'])
-        print(selectedIngredients)
         session['ingredients'] = selectedIngredients
         return redirect(url_for('recipes'))
     elif session.get('ingredients'):

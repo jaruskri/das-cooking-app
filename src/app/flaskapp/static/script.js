@@ -70,15 +70,21 @@ $(document).ready(function(){
     //     });
     // } else {fillIngredientsDatalist();}
     try {
-        var ingredients = JSON.parse(sessionStorage.getItem('ingredients'));
+        var ingredientsl = JSON.parse(sessionStorage.getItem('ingredients'));
+        if (ingredientsl.length < 1) {throw 5;}
+        fillIngredientsDatalist();
     } catch(err) {
         $.get( "ingredientslist", function(data) {
             sessionStorage.setItem('ingredients', data);
+            ingredientsl = JSON.parse(data);
+            fillIngredientsDatalist();
         });
     }
-    for (i in ingredients) {
-        $("#ingredientslist").append('<option value="'+ingredients[i]+'">');
-    }
+    function fillIngredientsDatalist() {
+        for (i in ingredientsl) {
+            $("#ingredientslist").append('<option value="'+ingredientsl[i]+'">');
+        }
+    }   
 
     // change selection manually
     function manualSelection(pid, ingr) {
