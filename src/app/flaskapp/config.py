@@ -8,6 +8,9 @@ class Config(object):
     IMAGE_FORMAT = 'JPEG'
     IMAGE_EXTENSION = 'jpg'
     APP_PATH = os.path.abspath(os.path.dirname(__file__))
+    NUM_RECOMMENDED_RECIPES = 15
+    NUM_AVAILABLE_CATEGORIES = 40
+    RECIPES_ORDER_CRITERION = "(CAST(shoda AS DOUBLE PRECISION)/pocet_ingredienci*CAST(shoda AS DOUBLE PRECISION)/zvoleno_ingredienci)"
 
     @property
     def PASSWORD(self):
@@ -17,3 +20,11 @@ class Config(object):
         except:
             print("Cannot load password.txt")
             return ''
+
+# in separate file
+class DbConfig(object):
+    DB_USER = ""
+    DB_PASSOWRD = ""
+    DB_HOST = "127.0.0.1"
+    DB_PORT = "5432"
+    DB_NAME = "cookingapp"

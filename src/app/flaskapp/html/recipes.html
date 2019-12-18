@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Ingredients</h1>
+
+{% for i in ingredients %}
+<span class="w3-margin-right w3-padding w3-tag">{{ i }}</span>
+{% endfor %}
+
+<h1>Categories</h1>
+
+<div id="container" style="width: 100%; height: 40em;"></div>
+<div id="categories" class="w3-center"></div>
+
+<h1>Recipes</h1>
+
+<div id="recipes">
+</div>
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+    $("#mySidebar a").click(function(){
+        $("#mySidebar").hide();
+    });
+    $("#mySidebarOpen").click(function(){
+        $("#mySidebar").show();
+    });
+
+    function loadRecipes() {
+        $("#recipes").load("listrecipes", {'cats': JSON.stringify(categories)});
+    }
+
+    var categories = [];
+
+    function toggleCategory(cat) {
+        if (categories.includes(cat)) {
+            categories.splice(categories.indexOf(cat), 1);
+        } else {
+            categories.push(cat)
+        }
+        $("#categories").html("");
+        categories.forEach(function(c){
+            $("#categories").append('<span class="w3-margin-right w3-padding w3-tag">'+c+'</span>');
+        });
+        $("#categories span").click(function(){
+            toggleCategory($(this).text());
+        });
+        loadRecipes();
+    }
+
+    $.getJSON("kategoriecetnosti{{ num_cat }}", function(data) {
+        var chart = anychart.tagCloud(data);
+        chart.angles([0, -45, 45]);
+        chart.container("container");
+        chart.tooltip().enabled(false);
+        chart.draw();
+        chart.fill("#000000")
+        chart.listen("pointClick", function(e){
+            toggleCategory(e.point.get("x"));
+        });
+    });
+
+    loadRecipes();
+
+});
+</script>
+
+{% endblock %}

@@ -4,7 +4,7 @@
 
 <!-- Upload form-->
 <div class="w3-center">
-<div class="w3-bar" id="uploadingform"><!--
+<div class="w3-bar w3-center" id="uploadingform"><!--
     --><input type="file" name="photos" accept="image/*" multiple="multiple" id="fileinput"><!--
     --><input type="button" id="uploadbtn" value="Upload photos" class="w3-bar-item w3-btn w3-black"><!--
     --><input type="text" list="ingredientslist" id="addinput" class="w3-bar-item w3-input" placeholder="Enter ingredient"><!--
@@ -19,8 +19,9 @@
     
 </div>
 
-<form action="recipe" method="post" class="w3-hide" id="continueform">
+<form action="{{ url_for('recipes') }}" method="post" class="w3-hide" id="continueform">
     <input type="text" name="ingredients">
+    <input type="submit" value="Submit">
 </form>
 
 {% endblock %}

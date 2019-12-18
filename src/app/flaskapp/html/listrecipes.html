@@ -1,0 +1,10 @@
+<ul>
+{% for r in recipes %}
+    <li>
+        <h3><a href="{{ url_for('recipe', id=r.rid) }}">{{ r.title }}</a></h3>
+        {% if r.description is not none %}<i>{{ r.description }}</i><br>{% endif %}
+        Rating: {{ r.rating }}, calories: {{ r.calories }}, fat: {{ r.fat }}, sodium: {{ r.sodium }}, protein: {{ r.protein }}<br>
+        <b>Ingredients: {{ r.pocet_ingredienci }} in recipe, {{ r.zvoleno_ingredienci}} specified, {{ r.shoda }} match</b>
+    </li>
+{% endfor %}
+</ul>

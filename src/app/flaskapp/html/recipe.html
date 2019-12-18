@@ -2,39 +2,41 @@
 
 {% block content %}
 
-Ingredients:
+<h1>{{ recipe.title }}</h1>
 
-<ul>
-{% for i in ingredients %}
-    <li>{{ i }}</li>
-{% endfor %}
-</ul>
-
-Recipes:
-
-<ul>
-{% for r in recipes %}
-    <li>{{ r.title }}</li>
-{% endfor %}
-</ul>
-
-
-{% set r = recipes[0] %}
-<h1>{{ r.title }}</h1>
+{% if recipe.description is not none %}<i>{{ recipe.description }}</i><br>{% endif %}
+Categories: {% for c in recipe.categories %}{{ c }}, {% endfor %}<br>
+Rating: {{ recipe.rating }}
+{% if recipe.calories is not none %}, calories: {{ recipe.calories }}{% endif %}
+{% if recipe.fat is not none %}, fat: {{ recipe.fat }}{% endif %}
+{% if recipe.sodium is not none %}, sodium: {{ recipe.sodium }}{% endif %}
+{% if recipe.protein is not none %}, protein: {{ recipe.protein }}{% endif %}
+.
 
 <h2>Ingredients</h2>
 <ul>
-{% for i in r.ingredients %}
+{% for i in recipe.ingredients %}
     <li>{{ i }}</li>
 {% endfor %}
 </ul>
 
 <h2>Directions</h2>
 <ol>
-{% for i in r.directions %}
+{% for i in recipe.directions %}
     <li>{{ i }}</li>
 {% endfor %}
 </ol>
 
+<script>
+$(document).ready(function(){
+
+    $("#mySidebar a").click(function(){
+        $("#mySidebar").hide();
+    });
+    $("#mySidebarOpen").click(function(){
+        $("#mySidebar").show();
+    });
+});
+</script>
 
 {% endblock %}

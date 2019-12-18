@@ -1,3 +1,4 @@
 password.txt
 uploaded/*
 !uploaded/*.txt
+dbconfig.py

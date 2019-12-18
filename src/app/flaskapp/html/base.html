@@ -7,7 +7,8 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='font.css') }}">
         <script src="{{ url_for('static', filename='jquery-3.4.1.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
+        {% if noscript is not defined %}<script src="{{ url_for('static', filename='script.js') }}"></script>{% endif %}
+
         <title>CookingApp</title>
     </head>
     <body>

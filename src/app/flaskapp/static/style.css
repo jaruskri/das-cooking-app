@@ -1,3 +1,6 @@
+body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
+.w3-bar-block .w3-bar-item {padding:20px}
+
 #fileinput {
     width: 0.1px;
 	height: 0.1px;
@@ -24,4 +27,20 @@
 
 .logitem img {
 	max-height: 30em;
+}
+
+@media (max-width:650px) {
+
+	#continuebtn, #clearbtn, #uploadbtn {
+		width: 100%;
+	}
+
+	#addinput {
+		width: 70%;
+	}
+
+	#addbtn {
+		width: 30%;
+	}
+
 }

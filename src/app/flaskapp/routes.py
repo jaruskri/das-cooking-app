@@ -1,10 +1,11 @@
 from flask import render_template, make_response, request, session, flash, send_from_directory, redirect, url_for
 from flaskapp import app
 from flaskapp.forms import LoginForm
-from flaskapp.func import allowed_file, convert_image, recognize, listingredients, getRecipes
+from flaskapp.func import allowed_file, convert_image, recognize, listingredients, chooseRecipes, get_db, getRecipe, kategoriecetnosti
 import json
 import os
 import time
+from flaskapp.klasifikator import klasifikace
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -35,11 +36,12 @@ def upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], newfilename))
             newfilename = convert_image(newfilename, app.config['UPLOAD_FOLDER'])
             if newfilename == False: continue
-            estimation, estimationWeights = recognize(newfilename)
-            names.append({'filename': newfilename, 'estimation': estimation, 'estimationWeights': estimationWeights, 'estimationMethod': 'random', 'selection': estimation[0], 'selectionMethod': 'auto'})
+            estimation, estimationWeights, method = klasifikace(app.config['UPLOAD_FOLDER']+'/'+newfilename)
+            names.append({'filename': newfilename, 'estimation': estimation, 'estimationWeights': estimationWeights, 'estimationMethod': method, 'selection': estimation[0], 'selectionMethod': 'auto'})
     uploaded = session.get('uploaded') or []
     uploaded.extend(names)
     session['uploaded'] = uploaded
+    print(names)
     return json.dumps(names)
 
 @app.route('/ingredientslist')
@@ -54,10 +56,12 @@ def uploaded_static(filename):
         return redirect(url_for('index'))
     return send_from_directory(app.root_path + '/uploaded/', filename)
 
-@app.route('/recipe', methods=['GET', 'POST'])
-def recipe():
+@app.route('/recipes', methods=['GET', 'POST'])
+def recipes():
     if not session.get('logged'):
         return redirect(url_for('index'))
+    if session.get('ingredients'):
+        print(session.get('ingredients'))
     if request.form.get('ingredients') is not None:
         ingredients = json.loads(request.form.get('ingredients'))
         with open(os.path.join(app.config['UPLOAD_FOLDER'], str(round(time.time()*1000)) + '.json'), 'w') as outfile:
@@ -65,13 +69,28 @@ def recipe():
         selectedIngredients = []
         for i in ingredients:
             selectedIngredients.append(i['selection'])
+        print(selectedIngredients)
         session['ingredients'] = selectedIngredients
+        return redirect(url_for('recipes'))
     elif session.get('ingredients'):
         selectedIngredients = session.get('ingredients')
     else:
         selectedIngredients = []
-    recipes = getRecipes(selectedIngredients)
-    return render_template('recipe.html', ingredients=selectedIngredients, recipes=recipes)
+    return render_template('recipes.html', ingredients=selectedIngredients, noscript=True, num_cat=app.config['NUM_AVAILABLE_CATEGORIES'])
+
+@app.route('/listrecipes', methods=['GET', 'POST'])
+def listrecipes():
+    if not session.get('logged'):
+        return redirect(url_for('index'))
+    if session.get('ingredients'):
+        selectedIngredients = session.get('ingredients')
+    else: return ''
+    if request.form.get('cats') is not None: categories = json.loads(request.form.get('cats'))
+    else: categories = []
+    recipes = chooseRecipes(selectedIngredients, categories)
+    return render_template('listrecipes.html', recipes=recipes)
+
+
 
 @app.route('/log')
 def log():
@@ -86,3 +105,16 @@ def log():
         with open(files[i]) as f:
             data.append(json.load(f))
     return render_template('log.html', data=data, uf=app.config['UPLOAD_FOLDER'])
+
+@app.route('/recipe<id>')
+def recipe(id):
+    if not session.get('logged'):
+        return redirect(url_for('index'))
+    recipe = getRecipe(id)
+    return render_template('recipe.html', recipe=recipe, noscript=True)
+
+@app.route('/kategoriecetnosti<num>')
+def kategoriecetnostir(num):    
+    if not session.get('logged'):
+        return redirect(url_for('index'))
+    return json.dumps(kategoriecetnosti(num))

@@ -54,21 +54,31 @@ $(document).ready(function(){
     });
 
     // prepare manuall add input
-    function fillIngredientsDatalist() {
-        console.log('Filling ingredients list');
-        var ingredients = JSON.parse(sessionStorage.getItem('ingredients'));
-        for (i in ingredients) {
-            $("#ingredientslist").append('<option value="'+ingredients[i]+'">');
-        }
-    }
+    // function fillIngredientsDatalist() {
+    //     console.log('Filling ingredients list');
+    //     var ingredients = JSON.parse(sessionStorage.getItem('ingredients'));
+    //     for (i in ingredients) {
+    //         $("#ingredientslist").append('<option value="'+ingredients[i]+'">');
+    //     }
+    // }
 
-    // load known ingredients
-    if (sessionStorage.getItem('ingredients') == null) {
+    // // load known ingredients
+    // if (sessionStorage.getItem('ingredients') == null) {
+    //     $.get( "ingredientslist", function(data) {
+    //         sessionStorage.setItem('ingredients', data);
+    //         fillIngredientsDatalist();
+    //     });
+    // } else {fillIngredientsDatalist();}
+    try {
+        var ingredients = JSON.parse(sessionStorage.getItem('ingredients'));
+    } catch(err) {
         $.get( "ingredientslist", function(data) {
             sessionStorage.setItem('ingredients', data);
-            fillIngredientsDatalist();
         });
-    } else {fillIngredientsDatalist();}
+    }
+    for (i in ingredients) {
+        $("#ingredientslist").append('<option value="'+ingredients[i]+'">');
+    }
 
     // change selection manually
     function manualSelection(pid, ingr) {
@@ -92,7 +102,7 @@ $(document).ready(function(){
             est = [...photos[i].estimation];
             var index = est.indexOf(photos[i].selection);
             if (index !== -1) est.splice(index, 1);
-            for (e = 0; e < est.length; e++) {
+            for (e = 0; e < Math.min(est.length, 5); e++) {
                 t = est[e];
                 if (e == 0) t = firstCapital(t);
                 else element += ', ';

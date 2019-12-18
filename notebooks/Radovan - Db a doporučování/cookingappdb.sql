@@ -5,7 +5,7 @@
 -- Dumped from database version 12.0
 -- Dumped by pg_dump version 12.0
 
--- Started on 2019-12-10 18:39:54
+-- Started on 2019-12-11 17:55:50
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -230,14 +230,14 @@ ALTER TABLE public.zvolene_kategorie OWNER TO postgres;
 -- Name: recept_vyhovujici_kategorii; Type: VIEW; Schema: public; Owner: postgres
 --
 
-CREATE VIEW public.recept_vyhovujici_kategorii AS
+CREATE VIEW public.recept_vyhovujici_kategorii WITH (security_barrier='false') AS
  SELECT shoda.idr
    FROM ( SELECT recept.rid AS idr,
-            count(recept.rid) AS count
+            count(prislusnost_kategorii.idr) AS count
            FROM (((public.kategorie
              JOIN public.prislusnost_kategorii ON ((kategorie.kid = prislusnost_kategorii.idk)))
              RIGHT JOIN public.zvolene_kategorie ON ((kategorie.kid = zvolene_kategorie.idk)))
-             JOIN public.recept ON ((prislusnost_kategorii.idr = recept.rid)))
+             RIGHT JOIN public.recept ON ((prislusnost_kategorii.idr = recept.rid)))
           GROUP BY recept.rid) shoda
   WHERE (shoda.count = ( SELECT count(*) AS count
            FROM public.zvolene_kategorie));
@@ -728,7 +728,7 @@ GRANT ALL ON TABLE public.postup TO cook;
 GRANT ALL ON SEQUENCE public.recept_rid_seq TO cook;
 
 
--- Completed on 2019-12-10 18:39:54
+-- Completed on 2019-12-11 17:55:50
 
 --
 -- PostgreSQL database dump complete
