@@ -69,8 +69,8 @@ def chooseRecipes(ingredients, categories=None, conditions=None, num=app.config[
     # dodatečné podmínky? řazení? vrátit jen id a title
     db = get_db()
     cursor = db.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
-    sql1 = "INSERT INTO zvolene_kategorie(idk) VALUES ((SELECT kid FROM kategorie WHERE nazev = %s))"
-    sql2 = "INSERT INTO zvolene_ingredience(idi) VALUES ((SELECT iid FROM ingredience_pref WHERE nazev = %s))"
+    sql1 = "INSERT INTO zvolene_kategorie(idk) VALUES ((SELECT kid FROM kategorie WHERE nazev = %s)) ON CONFLICT DO NOTHING"
+    sql2 = "INSERT INTO zvolene_ingredience(idi) VALUES ((SELECT iid FROM ingredience_pref WHERE nazev = %s)) ON CONFLICT DO NOTHING"
     try:
         cursor.execute("DELETE FROM zvolene_kategorie")
         cursor.execute("DELETE FROM zvolene_ingredience")
