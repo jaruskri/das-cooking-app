@@ -36,7 +36,7 @@ def upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], newfilename))
             newfilename = convert_image(newfilename, app.config['UPLOAD_FOLDER'])
             if newfilename == False: continue
-            estimation, estimationWeights, method = klasifikace(app.config['UPLOAD_FOLDER']+'/'+newfilename)
+            estimation, estimationWeights, method = klasifikace(app.config['UPLOAD_FOLDER']+'/'+newfilename, threshold=app.config['CLASSIFICATION_THRESHOLD'])
             names.append({'filename': newfilename, 'estimation': estimation, 'estimationWeights': estimationWeights, 'estimationMethod': method, 'selection': estimation[0], 'selectionMethod': 'auto'})
     uploaded = session.get('uploaded') or []
     uploaded.extend(names)
