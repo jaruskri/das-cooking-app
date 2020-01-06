@@ -11,7 +11,7 @@ class Config(object):
     NUM_RECOMMENDED_RECIPES = 15
     NUM_AVAILABLE_CATEGORIES = 40
     RECIPES_ORDER_CRITERION = "(CAST(shoda AS DOUBLE PRECISION)/pocet_ingredienci*CAST(shoda AS DOUBLE PRECISION)/zvoleno_ingredienci)"
-    CLASSIFICATION_THRESHOLD = 0.01
+    CLASSIFICATION_THRESHOLD = 0.000
 
     @property
     def PASSWORD(self):

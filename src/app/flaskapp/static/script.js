@@ -108,7 +108,7 @@ $(document).ready(function(){
             est = [...photos[i].estimation];
             var index = est.indexOf(photos[i].selection);
             if (index !== -1) est.splice(index, 1);
-            for (e = 0; e < Math.min(est.length, 5); e++) {
+            for (e = 0; e < Math.min(est.length, 4); e++) {
                 t = est[e];
                 if (e == 0) t = firstCapital(t);
                 else element += ', ';
@@ -140,10 +140,12 @@ $(document).ready(function(){
     // add manually
     function addManually() {
         console.log('Add manually');
-        r = {estimation: [$("#addinput").val()], selection: $("#addinput").val(), estimationMethod: 'none', selectionMethod: 'manual'};
-        console.log(r);
-        photos[photos.length] = r;
-        displayingredients();
+        if (ingredientsl.includes($("#addinput").val())) {
+            r = {estimation: [$("#addinput").val()], selection: $("#addinput").val(), estimationMethod: 'none', selectionMethod: 'manual'};
+            console.log(r);
+            photos[photos.length] = r;
+            displayingredients();
+        }
         $("#addinput").val('');
     }
     $("#addbtn").click(function(){

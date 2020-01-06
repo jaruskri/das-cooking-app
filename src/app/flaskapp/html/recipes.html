@@ -4,9 +4,11 @@
 
 <h1>Ingredients</h1>
 
+<div id="ingredients" class="w3-center">
 {% for i in ingredients %}
-<span class="w3-margin-right w3-padding w3-tag">{{ i }}</span>
+<span class="w3-margin-right w3-padding w3-tag" style="cursor: pointer">{{ i }}</span>
 {% endfor %}
+</div>
 
 <h1>Categories</h1>
 
@@ -23,6 +25,8 @@
 <script>
 $(document).ready(function(){
 
+    var ingredients = [{% for i in ingredients %}'{{ i }}',{% endfor %}];
+
     $("#mySidebar a").click(function(){
         $("#mySidebar").hide();
     });
@@ -31,7 +35,7 @@ $(document).ready(function(){
     });
 
     function loadRecipes() {
-        $("#recipes").load("listrecipes", {'cats': JSON.stringify(categories)});
+        $("#recipes").load("listrecipes", {'cats': JSON.stringify(categories), 'ingredients': JSON.stringify(ingredients)});
     }
 
     var categories = [];
@@ -51,6 +55,13 @@ $(document).ready(function(){
         });
         loadRecipes();
     }
+
+    $("#ingredients span").click(function(){
+        console.log("Remove " + $(this).text());
+        ingredients.splice(ingredients.indexOf($(this).text()), 1);
+        $(this).remove();
+        loadRecipes();
+    });
 
     $.getJSON("kategoriecetnosti{{ num_cat }}", function(data) {
         var chart = anychart.tagCloud(data);

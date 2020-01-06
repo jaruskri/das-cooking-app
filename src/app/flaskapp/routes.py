@@ -78,7 +78,9 @@ def recipes():
 def listrecipes():
     if not session.get('logged'):
         return redirect(url_for('index'))
-    if session.get('ingredients'):
+    if request.form.get('ingredients') is not None:
+        selectedIngredients = json.loads(request.form.get('ingredients'))
+    elif session.get('ingredients'):
         selectedIngredients = session.get('ingredients')
     else: return ''
     if request.form.get('cats') is not None: categories = json.loads(request.form.get('cats'))
