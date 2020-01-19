@@ -14,6 +14,7 @@ $(document).ready(function(){
         for (i = 0; i < $('#fileinput')[0].files.length; i++) {
             fd.append('photos', $('#fileinput')[0].files[i]);
         }
+        $('#fileinput').val('');
         $.ajax({
             url: 'upload',
             type: 'post',
@@ -22,7 +23,6 @@ $(document).ready(function(){
             processData: false,
             success: function(response){
                 if (response != 0) {
-                    $('#fileinput').val('');
                     r = JSON.parse(response);
                     console.log(r);
                     photos = photos.concat(r);
