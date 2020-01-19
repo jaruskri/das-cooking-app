@@ -171,4 +171,8 @@ $(document).ready(function(){
         $("#continueform").submit();
     });
 
+    $("#backButton").click(function(){
+        location.href="/";
+    });
+
 });

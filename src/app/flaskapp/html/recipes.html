@@ -6,7 +6,7 @@
 
 <div id="ingredients" class="w3-center">
 {% for i in ingredients %}
-<span class="w3-margin-right w3-padding w3-tag" style="cursor: pointer">{{ i }}</span>
+<span class="w3-margin-right w3-padding w3-tag" style="cursor: pointer" title="Click to remove">{{ i }}</span>
 {% endfor %}
 </div>
 
@@ -48,7 +48,7 @@ $(document).ready(function(){
         }
         $("#categories").html("");
         categories.forEach(function(c){
-            $("#categories").append('<span class="w3-margin-right w3-padding w3-tag">'+c+'</span>');
+            $("#categories").append('<span class="w3-margin-right w3-padding w3-tag" title="Click to remove">'+c+'</span>');
         });
         $("#categories span").click(function(){
             toggleCategory($(this).text());
@@ -76,6 +76,10 @@ $(document).ready(function(){
     });
 
     loadRecipes();
+
+    $("#backButton").click(function(){
+        location.href="/";
+    });
 
 });
 </script>
