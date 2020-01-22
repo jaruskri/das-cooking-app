@@ -27,4 +27,4 @@ def klasifikace(path, threshold=0):
     i = weights > threshold
     weights = weights[i].astype('float64')
     sorted_classes = sorted_classes[i]
-    return (list(sorted_classes), list(weights), 'cnn1')
+    return (list(sorted_classes), list(weights), 'cnn2')

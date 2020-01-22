@@ -71,6 +71,14 @@ def chooseRecipes(ingredients, categories=None, conditions=None, num=app.config[
     cursor = db.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
     sql1 = "INSERT INTO zvolene_kategorie(idk) VALUES ((SELECT kid FROM kategorie WHERE nazev = %s)) ON CONFLICT DO NOTHING"
     sql2 = "INSERT INTO zvolene_ingredience(idi) VALUES ((SELECT iid FROM ingredience_pref WHERE nazev = %s)) ON CONFLICT DO NOTHING"
+    if 'polutry' in ingredients:
+        ingredients.remove('polutry')
+        ingredients.append('chicken')
+        ingredients.append('turkey')
+    if 'red meat' in ingredients:
+        ingredients.remove('red meat')
+        ingredients.append('pork')
+        ingredients.append('beef')
     try:
         cursor.execute("DELETE FROM zvolene_kategorie")
         cursor.execute("DELETE FROM zvolene_ingredience")
